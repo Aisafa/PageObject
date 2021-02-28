@@ -17,10 +17,6 @@ public class DataHelper {
         return new AuthInfo("vasya", "qwerty123");
     }
 
-    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
-        return new AuthInfo("petya", "123qwerty");
-    }
-
     @Value
     public static class VerificationCode {
         private String code;
@@ -48,4 +44,19 @@ public class DataHelper {
     public static CardNumber2 getCardNumber2() {
         return new CardNumber2("5559 0000 0000 0002");
     }
+
+    @Value
+    public static class TransferAmount {
+        private String bigAmount;
+        private String smallAmount;
+        private String validAmount;
+
+    }
+
+    public static TransferAmount getTransferAmount() {
+        return new TransferAmount("999999", "0.1", "100");
+    }
+
+
+
 }
