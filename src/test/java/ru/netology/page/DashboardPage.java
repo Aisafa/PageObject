@@ -3,6 +3,7 @@ package ru.netology.page;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import lombok.val;
+import ru.netology.data.DataHelper;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
@@ -18,6 +19,7 @@ public class DashboardPage {
     private SelenideElement amount = $$("[data-test-id=amount] input").first();
     private SelenideElement from = $("[data-test-id=from] input ");
     private SelenideElement transfer = $("[data-test-id=action-transfer]");
+    public SelenideElement notification = $("[data-test-id=notification] .input__sub");
 
     public DashboardPage() {
         heading.shouldBe(visible);
@@ -41,8 +43,8 @@ public class DashboardPage {
         return new DashboardPage();
     }
 
-    public int getCardBalance(String cardNumber) {
-        val text = cards.find(text(cardNumber.substring(16, 19))).getText();
+    public int getCardBalance(String number) {
+        val text = cards.find(text(number.substring(16, 19))).getText();
         return extractBalance(text);
     }
 

@@ -8,8 +8,8 @@ import ru.netology.page.LoginPage;
 import ru.netology.page.DashboardPage;
 
 
-import static com.codeborne.selenide.Selenide.clearBrowserCookies;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Condition.exactText;
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TransferTest {
@@ -28,17 +28,20 @@ public class TransferTest {
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
         val DashboardPage = new DashboardPage();
-        int startBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int startBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
+        val amountValue = "100";
+        val numberFistCard = DataHelper.getCardNumber().getCard01();
+        val numberSecondCard = DataHelper.getCardNumber().getCard02();
+        val startBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val startBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
         val transactionInformation = DashboardPage.transfersToFirstCard();
-        transactionInformation.transfersMoney("100", "5559 0000 0000 0002");
-        int updatedBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int updatedBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
-        int amount = updatedBalanceFirstCard-startBalanceFirstCard;
-        int expectedBalanceFirstCard = startBalanceFirstCard+amount;
-        int expectedBalanceSecondCard = startBalanceSecondCard-amount;
-        assertEquals(expectedBalanceFirstCard,updatedBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard,updatedBalanceSecondCard);
+        transactionInformation.transfersMoney(amountValue, numberSecondCard);
+        val updatedBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val updatedBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
+        val amount = updatedBalanceFirstCard - startBalanceFirstCard;
+        val expectedBalanceFirstCard = startBalanceFirstCard + amount;
+        val expectedBalanceSecondCard = startBalanceSecondCard - amount;
+        assertEquals(expectedBalanceFirstCard, updatedBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, updatedBalanceSecondCard);
     }
 
     @Test
@@ -49,17 +52,20 @@ public class TransferTest {
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
         val DashboardPage = new DashboardPage();
-        int startBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int startBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
+        val amountValue = "100";
+        val numberFistCard = DataHelper.getCardNumber().getCard01();
+        val numberSecondCard = DataHelper.getCardNumber().getCard02();
+        val startBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val startBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
         val transactionInformation = DashboardPage.transfersToSecondCard();
-        transactionInformation.transfersMoney("100", "5559 0000 0000 0001");
-        int updatedBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int updatedBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
-        int amount = updatedBalanceFirstCard-startBalanceFirstCard;
-        int expectedBalanceFirstCard = startBalanceFirstCard+amount;
-        int expectedBalanceSecondCard = startBalanceSecondCard-amount;
-        assertEquals(expectedBalanceFirstCard,updatedBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard,updatedBalanceSecondCard);
+        transactionInformation.transfersMoney(amountValue, numberFistCard);
+        val updatedBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val updatedBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
+        val amount = updatedBalanceFirstCard - startBalanceFirstCard;
+        val expectedBalanceFirstCard = startBalanceFirstCard + amount;
+        val expectedBalanceSecondCard = startBalanceSecondCard - amount;
+        assertEquals(expectedBalanceFirstCard, updatedBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, updatedBalanceSecondCard);
     }
 
     @Test
@@ -70,17 +76,21 @@ public class TransferTest {
         val verificationCode = DataHelper.getVerificationCodeFor(authInfo);
         verificationPage.validVerify(verificationCode);
         val DashboardPage = new DashboardPage();
-        int startBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int startBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
+        val amountValue = "11000";
+        val numberFistCard = DataHelper.getCardNumber().getCard01();
+        val numberSecondCard = DataHelper.getCardNumber().getCard02();
+        val startBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val startBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
         val transactionInformation = DashboardPage.transfersToSecondCard();
-        transactionInformation.transfersMoney("11000", "5559 0000 0000 0001");
-        int updatedBalanceFirstCard = DashboardPage.getCardBalance("5559 0000 0000 0001");
-        int updatedBalanceSecondCard = DashboardPage.getCardBalance("5559 0000 0000 0002");
-        int amount = updatedBalanceFirstCard-startBalanceFirstCard;
-        int expectedBalanceFirstCard = startBalanceFirstCard+amount;
-        int expectedBalanceSecondCard = startBalanceSecondCard-amount;
-        assertEquals(expectedBalanceFirstCard,updatedBalanceFirstCard);
-        assertEquals(expectedBalanceSecondCard,updatedBalanceSecondCard);
+        transactionInformation.transfersMoney(amountValue, numberFistCard);
+        val updatedBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
+        val updatedBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
+        val amount = updatedBalanceFirstCard - startBalanceFirstCard;
+        val expectedBalanceFirstCard = startBalanceFirstCard + amount;
+        val expectedBalanceSecondCard = startBalanceSecondCard - amount;
+        assertEquals(expectedBalanceFirstCard, updatedBalanceFirstCard);
+        assertEquals(expectedBalanceSecondCard, updatedBalanceSecondCard);
+        DashboardPage.notification.shouldHave(exactText("Перевод невозможен!. Не достаточно средств"));
     }
 
 }
