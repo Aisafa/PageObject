@@ -23,7 +23,6 @@ public class DashboardPage {
 
     public DashboardPage() {
         heading.shouldBe(visible);
-
     }
 
     public DashboardPage transfersToFirstCard() {
@@ -54,5 +53,9 @@ public class DashboardPage {
         val value = text.substring(start + balanceStart.length(), finish);
         return Integer.parseInt(value);
     }
+    public DashboardPage notificationTransfer(){
+        notification.shouldHave(exactText("Перевод невозможен!. Не достаточно средств"));
+        return new DashboardPage();
+            }
 
 }

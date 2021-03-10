@@ -86,11 +86,11 @@ public class TransferTest {
         val updatedBalanceFirstCard = DashboardPage.getCardBalance(numberFistCard);
         val updatedBalanceSecondCard = DashboardPage.getCardBalance(numberSecondCard);
         val amount = updatedBalanceFirstCard - startBalanceFirstCard;
-        val expectedBalanceFirstCard = startBalanceFirstCard + amount;
-        val expectedBalanceSecondCard = startBalanceSecondCard - amount;
+        val expectedBalanceFirstCard = startBalanceFirstCard;
+        val expectedBalanceSecondCard = startBalanceSecondCard;
         assertEquals(expectedBalanceFirstCard, updatedBalanceFirstCard);
         assertEquals(expectedBalanceSecondCard, updatedBalanceSecondCard);
-        DashboardPage.notification.shouldHave(exactText("Перевод невозможен!. Не достаточно средств"));
+        DashboardPage.notificationTransfer();
     }
 
 }
